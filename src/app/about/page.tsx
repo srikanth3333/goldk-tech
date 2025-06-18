@@ -1,7 +1,8 @@
 'use client'
 import React from 'react'
-import { CompanyFooter, Header } from '../page'
 import Image from 'next/image';
+import { Header } from '../components/Header';
+import { CompanyFooter } from '../components/CompanyFooter';
 
 interface AboutUsProps {
   title?: string;

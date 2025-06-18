@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from 'react'
-import { CompanyFooter, Header } from '../page'
+import { Header } from '../components/Header';
+import { CompanyFooter } from '../components/CompanyFooter';
 interface ContactHeaderProps {
   title?: string;
   subtitle?: string;

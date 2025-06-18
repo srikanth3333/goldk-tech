@@ -2,8 +2,8 @@
 // app/page.tsx
 // components/Header.tsx
 'use client'
-import { useEffect, useRef, useState } from 'react'
-import { Menu, X, MessageCircle, ChevronDown  } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import {  MessageCircle  } from 'lucide-react'
 import { 
   BarChart3, 
   Shield, 
@@ -13,266 +13,67 @@ import {
   Hexagon 
 } from 'lucide-react'
 import React from 'react';
-import Link from 'next/link';
+import { Header } from './components/Header';
+import { CompanyFooter } from './components/CompanyFooter';
 
 
-export const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isServicesOpen, setIsServicesOpen] = useState(false)
-  const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false)
-  const servicesRef = useRef<HTMLDivElement>(null)
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
-
-  // Services list
-  const services = [
-    { name: 'Remote Management Services', href: '#services' },
-    { name: 'Network Security', href: '#services' },
-    { name: 'Cloud IT Solutions', href: '#services' },
-    { name: 'DevOps Services', href: '#services' },
-    { name: 'IT Security & Compliance', href: '#services' },
-    { name: 'IT Consulting', href: '#services' }
-  ]
-
-  // Navigation links
-  const navLinks = [
-    { href: '/', label: 'Home' },
-    { href: '/about', label: 'About Us' },
-    { href: '/about', label: 'Services', hasDropdown: true },
-    { href: '/contact', label: 'Contact Us' }
-  ]
-
-  // Handle services dropdown hover
-  const handleServicesMouseEnter = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current)
-    }
-    setIsServicesOpen(true)
-  }
-
-  const handleServicesMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setIsServicesOpen(false)
-    }, 150) // Small delay to prevent flickering
-  }
-
-  // Close menu when clicking on a link (for mobile)
-  const handleLinkClick = () => {
-    setIsMenuOpen(false)
-    setIsMobileServicesOpen(false)
-  }
-
-  // Handle mobile services toggle
-  const handleMobileServicesToggle = () => {
-    setIsMobileServicesOpen(!isMobileServicesOpen)
-  }
-
-  // Prevent body scroll when mobile menu is open
-  useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'unset'
-    }
-    
-    return () => {
-      document.body.style.overflow = 'unset'
-    }
-  }, [isMenuOpen])
-
-  // Clean up timeout on unmount
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current)
-      }
-    }
-  }, [])
-
+const Loader = () => {
   return (
-    <>
-      {/* Fixed Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo */}
-            <div className="flex-shrink-0 z-50">
-              <div className="text-2xl font-bold text-teal-600">
-                GOLDK-TECH.
-              </div>
-            </div>
-
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex space-x-8">
-              {navLinks.map((link) => (
-                <div key={link.href} className="relative">
-                  {link.hasDropdown ? (
-                    <div
-                      ref={servicesRef}
-                      className="relative"
-                      onMouseEnter={handleServicesMouseEnter}
-                      onMouseLeave={handleServicesMouseLeave}
-                    >
-                      <button className="text-gray-700 hover:text-teal-600 transition-colors duration-200 font-medium flex items-center gap-1">
-                        {link.label}
-                        <ChevronDown
-                          size={16} 
-                          className={`transition-transform duration-200 ${
-                            isServicesOpen ? 'rotate-180' : ''
-                          }`}
-                        />
-                      </button>
-                      
-                      {/* Services Dropdown */}
-                      <div
-                        className={`absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 py-2 transition-all duration-200 ${
-                          isServicesOpen
-                            ? 'opacity-100 visible translate-y-0'
-                            : 'opacity-0 invisible -translate-y-2'
-                        }`}
-                      >
-                        {services.map((service, index) => (
-                          <Link
-                            key={index}
-                            href={service.href}
-                            className="block px-4 py-3 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors duration-150"
-                          >
-                            {service.name}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  ) : (
-                    <Link
-                      href={link.href}
-                      className="text-gray-700 hover:text-teal-600 transition-colors duration-200 font-medium"
-                    >
-                      {link.label}
-                    </Link>
-                  )}
-                </div>
-              ))}
-            </nav>
-
-            {/* Mobile menu button */}
-            <div className="md:hidden z-50">
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-gray-700 hover:text-teal-600 transition-colors duration-200 p-2"
-                aria-label="Toggle menu"
-              >
-                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
+    <div className="fixed inset-0 z-[9999] bg-white flex items-center justify-center">
+      {/* Main container */}
+      <div className="text-center">
+        {/* Logo with animation */}
+        <div className="mb-8">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            {/* Animated logo blocks */}
+            <div className="relative">
+              <div className="w-12 h-12 bg-teal-600 rounded-lg animate-pulse transform rotate-12"></div>
+              <div className="absolute -top-2 -right-2 w-8 h-8 bg-teal-500 rounded-lg animate-bounce transform -rotate-12"></div>
             </div>
           </div>
+          
+          {/* Company name */}
+          <h1 className="text-4xl font-bold text-gray-800 mb-2">
+            GOLDK-TECH.
+          </h1>
+          <p className="text-gray-600 text-lg">
+            Technology Solutions
+          </p>
         </div>
-      </header>
 
-      {/* Mobile Navigation Overlay */}
-      <div
-        className={`fixed inset-0 z-40 md:hidden transition-opacity duration-300 ${
-          isMenuOpen
-            ? 'opacity-100 pointer-events-auto'
-            : 'opacity-0 pointer-events-none'
-        }`}
-      >
-        {/* Backdrop */}
-        <div
-          className="absolute inset-0 bg-black bg-opacity-50"
-          onClick={() => setIsMenuOpen(false)}
-        />
-        
-        {/* Sliding Menu Panel */}
-        <div
-          className={`absolute top-0 left-0 h-full w-full max-w-sm bg-white shadow-xl transform transition-transform duration-300 ease-in-out ${
-            isMenuOpen ? 'translate-x-0' : '-translate-x-full'
-          }`}
-        >
-          {/* Menu Header */}
-          <div className="flex items-center justify-between p-4 border-b border-gray-200">
-            <div className="text-2xl font-bold text-teal-600">
-              GOLDK-TECH.
-            </div>
-            <button
-              onClick={() => setIsMenuOpen(false)}
-              className="text-gray-500 hover:text-gray-700 p-2"
-              aria-label="Close menu"
-            >
-              <X size={24} />
-            </button>
-          </div>
+        {/* Loading spinner */}
+        <div className="flex items-center justify-center space-x-2">
+          <div className="w-3 h-3 bg-teal-600 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+          <div className="w-3 h-3 bg-teal-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+          <div className="w-3 h-3 bg-teal-400 rounded-full animate-bounce"></div>
+        </div>
 
-          {/* Menu Links */}
-          <nav className="flex flex-col py-4">
-            {navLinks.map((link, index) => (
-              <div key={link.href}>
-                {link.hasDropdown ? (
-                  <div>
-                    {/* Services Toggle Button */}
-                    <button
-                      onClick={handleMobileServicesToggle}
-                      className={`w-full px-6 py-4 text-lg font-medium text-gray-700 hover:text-teal-600 hover:bg-teal-50 transition-all duration-200 border-l-4 border-transparent hover:border-teal-600 flex items-center justify-between transform transition-transform duration-200 ${
-                        isMenuOpen ? 'translate-x-0 opacity-100' : '-translate-x-4 opacity-0'
-                      }`}
-                      style={{
-                        transitionDelay: `${index * 100}ms`
-                      }}
-                    >
-                      <span>{link.label}</span>
-                      <ChevronDown 
-                        size={20} 
-                        className={`transition-transform duration-200 ${
-                          isMobileServicesOpen ? 'rotate-180' : ''
-                        }`}
-                      />
-                    </button>
-                    
-                    {/* Mobile Services Submenu */}
-                    <div
-                      className={`overflow-hidden transition-all duration-300 ${
-                        isMobileServicesOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-                      }`}
-                    >
-                      {services.map((service, serviceIndex) => (
-                        <Link
-                          key={serviceIndex}
-                          href={service.href}
-                          onClick={handleLinkClick}
-                          className="block px-10 py-3 text-base text-gray-600 hover:text-teal-600 hover:bg-teal-50 transition-colors duration-200 border-l-4 border-transparent hover:border-teal-400"
-                        >
-                          {service.name}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <Link
-                    href={link.href}
-                    onClick={handleLinkClick}
-                    className={`px-6 py-4 text-lg font-medium text-gray-700 hover:text-teal-600 hover:bg-teal-50 transition-all duration-200 border-l-4 border-transparent hover:border-teal-600 transform transition-transform duration-200 block ${
-                      isMenuOpen ? 'translate-x-0 opacity-100' : '-translate-x-4 opacity-0'
-                    }`}
-                    style={{
-                      transitionDelay: `${index * 100}ms`
-                    }}
-                  >
-                    {link.label}
-                  </Link>
-                )}
-              </div>
-            ))}
-          </nav>
+        {/* Loading text */}
+        <p className="text-gray-500 mt-4 text-sm animate-pulse">
+          Loading...
+        </p>
+      </div>
 
-          {/* Optional: Additional content in mobile menu */}
-          <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-gray-200">
-            <div className="text-sm text-gray-500 text-center">
-              © 2024 GOLDK-TECH. All rights reserved.
-            </div>
-          </div>
+      {/* Optional: Progress bar */}
+      <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 w-64">
+        <div className="w-full bg-gray-200 rounded-full h-1">
+          <div className="bg-teal-600 h-1 rounded-full animate-pulse" style={{
+            animation: 'progressBar 2s ease-in-out forwards'
+          }}></div>
         </div>
       </div>
-    </>
+
+      <style jsx>{`
+        @keyframes progressBar {
+          0% { width: 0%; }
+          100% { width: 100%; }
+        }
+      `}</style>
+    </div>
   )
 }
+
+
 
 
 const HeroSection = () => {
@@ -458,97 +259,28 @@ const ITChallengesSection = () => {
   )
 }
 
-interface ContactInfo {
-  address: string;
-  phone: string;
-  email: string;
-}
 
-interface Service {
-  name: string;
-}
-
-interface CompanyFooterProps {
-  contactInfo?: ContactInfo;
-  services?: Service[];
-  aboutText?: string;
-}
-
-export const CompanyFooter: React.FC<CompanyFooterProps> = ({
-  contactInfo = {
-    address: "6 Belle Vue place Belle Vue Road Sudbury Suffolk CO10 2PQ",
-    phone: "+44 7586653668",
-    email: "GOLDK-TECH@gmail.com"
-  },
-  services = [
-    { name: "Remote Management Services" },
-    { name: "Network Security" },
-    { name: "Cloud IT Solutions" },
-    { name: "DevOps Services" },
-    { name: "IT Security & Compliance" },
-    { name: "IT Consulting" }
-  ],
-  aboutText = "GOLDK-TECH is a fast growing, technology driven company providing various services in the field of Information Technology......"
-}) => {
-  return (
-    <footer className="bg-white py-22 px-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Contact Us Section */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-800 mb-6">Contact Us</h3>
-            
-            {/* Logo */}
-            <div className="mb-6">
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-teal-500 rounded flex items-center justify-center">
-                  <div className="w-6 h-6 bg-white rounded-sm flex items-center justify-center">
-                    <div className="w-3 h-3 bg-teal-500 rounded-xs"></div>
-                  </div>
-                </div>
-                <span className="text-xl font-bold text-gray-800">GOLDK-TECH.</span>
-              </div>
-            </div>
-
-            <div className="space-y-3 text-sm text-gray-600">
-              <p>{contactInfo.address}</p>
-              <p>{contactInfo.phone}</p>
-              <p className="text-blue-600 hover:text-blue-800 transition-colors">
-                <a href={`mailto:${contactInfo.email}`}>
-                  {contactInfo.email}
-                </a>
-              </p>
-            </div>
-          </div>
-
-          {/* Services Section */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-blue-600 mb-6">Services</h3>
-            <ul className="space-y-2">
-              {services.map((service, index) => (
-                <li key={index} className="text-sm text-gray-600 hover:text-gray-800 transition-colors cursor-pointer">
-                  {service.name}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* About Us Section */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-blue-600 mb-6">About us</h3>
-            <p className="text-sm text-gray-600 leading-relaxed">
-              {aboutText}
-            </p>
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
-};
 
 
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    // Set loading to false after 2 seconds
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 2000)
+
+    // Cleanup timer on component unmount
+    return () => clearTimeout(timer)
+  }, [])
+
+  // Show loader while loading
+  if (isLoading) {
+    return <Loader />
+  }
+
   return (
     <div>
         <main>
