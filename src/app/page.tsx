@@ -264,25 +264,46 @@ const ITChallengesSection = () => {
 
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
+  const [showLoader, setShowLoader] = useState(false)
 
   useEffect(() => {
-    // Set loading to false after 2 seconds
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 2000)
+    // Check if this is the first visit in this session
+    const hasVisited = sessionStorage.getItem('hasVisited')
+    
+    if (!hasVisited) {
+      // First visit - show loader
+      setIsLoading(true)
+      setShowLoader(true)
+      
+      // Mark as visited
+      sessionStorage.setItem('hasVisited', 'true')
+      
+      // Start fade out after 1.8 seconds
+      const fadeTimer = setTimeout(() => {
+        setIsLoading(false)
+      }, 1800)
 
-    // Cleanup timer on component unmount
-    return () => clearTimeout(timer)
+      // Completely hide loader after fade animation
+      const hideTimer = setTimeout(() => {
+        setShowLoader(false)
+      }, 2000)
+
+      return () => {
+        clearTimeout(fadeTimer)
+        clearTimeout(hideTimer)
+      }
+    }
+    // If already visited, don't show loader at all
   }, [])
-
-  // Show loader while loading
-  if (isLoading) {
-    return <Loader />
-  }
 
   return (
     <div>
+      {showLoader && (
+        <div className={`transition-opacity duration-200 ${isLoading ? 'opacity-100' : 'opacity-0'}`}>
+          <Loader />
+        </div>
+      )}
         <main>
           <Header />
           <HeroSection />
