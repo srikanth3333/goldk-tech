@@ -18,8 +18,8 @@ interface CompanyFooterProps {
 
 export const CompanyFooter: React.FC<CompanyFooterProps> = ({
   contactInfo = {
-    address: "6 Belle Vue place Belle Vue Road Sudbury Suffolk CO10 2PQ",
-    phone: "+44 7586653668",
+    address: "81 romeway road, Leicestershire, Le5 5se",
+    phone: "+44 7776 639932",
     email: "GOLDK-TECH@gmail.com"
   },
   services = [
